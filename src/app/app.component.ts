@@ -1,44 +1,68 @@
-import { Component } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnChanges,
+  OnDestroy,
+  AfterViewInit,
+  AfterContentInit,
+  AfterViewChecked,
+  AfterContentChecked,
+  SimpleChanges,
+  Input,
+  Output,
+  EventEmitter,
+} from '@angular/core';
 
 @Component({
   selector: 'app-root',
-  // templateUrl: './app.component.html',
   template: `
-    <h1 [class.with-border]="withBorder"
-        [style.color]="textColor"
-        (mouseover)="onTextMouseOver()"
-        (mouseout)="onTextMouseOut()"
-    >
-        Hello {{ title }}
-    </h1>
-    <h1 [ngClass]="{'with-border': withBorder}" >
-        Hello {{ title }}
-    </h1>
-    <img src="{{ imgSrc }}">
-    <img [src]="imgSrc"><br/>
+    <h1 [class.with-border]="withBorder" [style.color]="textColor">{{ title }}</h1>
+    <button (click)="onButtonClick()">{{ withBorder ? 'Hide' : 'Show' }} Border</button>
+    <app-hello [text]="title" (buttonClicked)="onBtnClickFromHello($event)"></app-hello>
+    <app-hi></app-hi>
 
-    <button (click)="onButtonClick()">{{withBorder ? 'Ẩn' : 'Hiện'}} border </button>
-  `,
-  styleUrls: ['./app.component.css']
+    <app-people-list></app-people-list>
+
+    `,
+  styleUrls: ['./app.component.css'],
 })
-export class AppComponent {
-  title = 'Toán NV ok';
-  imgSrc = 'https://toidicodedao.files.wordpress.com/2019/06/img_1984jpg-e1561790037662.jpg?w=360&h=372&crop=1'
-  textColor = 'blue';
-  backGroundColor = 'violet';
+export class AppComponent
+  implements OnInit, OnChanges, OnDestroy, AfterViewInit, AfterContentInit, AfterViewChecked, AfterContentChecked {
+  title = 'Toan NV Updated';
+  imageSrc = 'https://picsum.photos/200';
 
-  styleObj = {color: this.textColor, background: this.backGroundColor };
-
+  textColor = 'tomato';
   withBorder = true;
 
+  onBtnClickFromHello(event: string){
+    console.log({event}, 'click form hello');
+    this.title = event ;
+  }
+
+  ngOnInit(): void {
+    console.log('Parent OnInit ran');
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+    // console.log('Parent OnChanges ran', { changes });
+  }
+  ngOnDestroy(): void {
+    // console.log('Parent OnDestroy ran');
+  }
+  ngAfterViewInit(): void {
+    // console.log('Parent AfterViewInit ran');
+  }
+  ngAfterContentInit(): void {
+    // console.log('Parent AfterContentInit ran');
+  }
+  ngAfterViewChecked(): void {
+    // console.log('Parent AfterViewChecked ran');
+  }
+  ngAfterContentChecked(): void {
+    // console.log('Parent AfterContentChecked ran');
+  }
+
   onButtonClick() {
-    console.log('Button Click !!!');
     this.withBorder = !this.withBorder;
-  }
-  onTextMouseOver() {
-    this.textColor = 'dodgerblue';
-  }
-  onTextMouseOut() {
-    this.textColor = 'violet';
+    this.title = 'OK';
   }
 }
